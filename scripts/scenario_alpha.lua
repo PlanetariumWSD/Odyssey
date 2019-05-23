@@ -1,4 +1,4 @@
--- Name: Atlantis Expedition
+-- Name: Project Alpha
 -- Description: You are the first crew of a new and improved version of the Atlantis space explorer.
 --- You must check out ship systems and complete an initial mission.
 -- Type: Mission
@@ -457,8 +457,10 @@ function phase2WaitTillWormholeWarpedPlayer(delta)
         shipyard_gamma:sendCommsMessage(player, scrambleMessage([[Atlantis-1, This is a test to see if this message works. ]]))
 
 
-          wormhole_creation_station = SpaceStation():setTemplate("Huge Station"):setFaction("Kraylor"):setCallSign("Wormhole Creation Station"):setPosition( 688700,-194800)
-
+          wormhole_creation_station = SpaceStation():setTemplate("Medium Station"):setFaction("Kraylor"):setCallSign("Wormhole Creation Station"):setPosition(693145,-194086):setShieldsMax(200)
+          CpuShip():setFaction("Kraylor"):setTemplate("WX-Lindworm"):setCallSign("WC1"):setPosition(690000,-190000):orderDefendLocation(693145,-194086):setWeaponStorage("Homing", 0):setWeaponStorage("HVLI", 4)
+          CpuShip():setFaction("Kraylor"):setTemplate("MU52 Hornet"):setCallSign("WC2"):setPosition(690000,-190000):orderDefendLocation(693145,-194086)
+          CpuShip():setFaction("Kraylor"):setTemplate("Adder MK5"):setCallSign("WC3"):setPosition(690000,-190000):orderDefendLocation(693145,-194086):setWeaponStorage("HVLI", 3)
 
 
 
