@@ -454,25 +454,36 @@ function phase2WaitTillWormholeWarpedPlayer(delta)
 
 
     if distance(player, 688636,-194683) < 2000 then  --Change the coordinates to match whatever new area we make
-        shipyard_gamma:sendCommsMessage(player, scrambleMessage([[Atlantis-1, This is a test to see if this message works. ]]))
+        shipyard_gamma:sendCommsMessage(player, scrambleMessage([[Atlantis-1, We are detecting Kraylor ships in your vicinity! You must destroy them! ]]))
 
 
           wormhole_creation_station = SpaceStation():setTemplate("Medium Station"):setFaction("Kraylor"):setCallSign("Wormhole Creation Station"):setPosition(693145,-194086):setShieldsMax(200)
-          CpuShip():setFaction("Kraylor"):setTemplate("WX-Lindworm"):setCallSign("WC1"):setPosition(690000,-190000):orderDefendLocation(693145,-194086):setWeaponStorage("Homing", 0):setWeaponStorage("HVLI", 4)
-          CpuShip():setFaction("Kraylor"):setTemplate("MU52 Hornet"):setCallSign("WC2"):setPosition(690000,-190000):orderDefendLocation(693145,-194086)
-          CpuShip():setFaction("Kraylor"):setTemplate("Adder MK5"):setCallSign("WC3"):setPosition(690000,-190000):orderDefendLocation(693145,-194086):setWeaponStorage("HVLI", 3)
+          wormholeguard1 = CpuShip():setFaction("Kraylor"):setTemplate("Adder MK5"):setCallSign("WC1"):setPosition(690000,-190000):orderDefendLocation(693145,-194086):setWeaponStorage("Homing", 0):setWeaponStorage("HVLI", 4)
+          wormholeguard2 = CpuShip():setFaction("Kraylor"):setTemplate("Adder MK5"):setCallSign("WC2"):setPosition(690000,-190000):orderDefendLocation(693145,-194086)
+          wormholeguard3 = CpuShip():setFaction("Kraylor"):setTemplate("Adder MK5"):setCallSign("WC3"):setPosition(690000,-190000):orderDefendLocation(693145,-194086):setWeaponStorage("HVLI", 3)
 
 
 
-        mission_state = phase3DestroyShipsAndStation
+        mission_state = phase3DestroyShips
     end
 end
 
 
-function phase3DestroyShipsAndStation(delta)
+function phase3DestroyShips(delta)
+
+    if not((wormholeguard1:isValid()) and (wormholeguard2:isValid()) and (wormholeguard3:isValid())) then
+        shipyard_gamma:sendCommsMessage(player, scrambleMessage([[ YAYYYYYYY ]]))
+    end
+
+    mission_state = phase3DestroyStation
+end
+
+
+function phase3DestroyStation(delta)
 
 
 end
+
 
 
 function phase3CollectRemains(delta)
