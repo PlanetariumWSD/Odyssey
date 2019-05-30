@@ -473,21 +473,34 @@ function phase3DestroyShips(delta)
 
     if not((wormholeguard1:isValid()) and (wormholeguard2:isValid()) and (wormholeguard3:isValid())) then
         shipyard_gamma:sendCommsMessage(player, scrambleMessage([[ YAYYYYYYY ]]))
+        mission_state = phase3destroyStationMessage
     end
-
-    mission_state = phase3DestroyStation
 end
 
 
+function phase3destroyStationMessage(delta)
+      shipyard_gamma:sendCommsMessage(player, [[Excellent job. Now destroy that station!]])
+      mission_state = phase3DestroyStation
+
+end
+
 function phase3DestroyStation(delta)
 
-
+      if not(wormhole_creation_station:isValid()) then
+        shipyard_gamma:sendCommsMessage(player, [[Again, excellent work. Go collect the remains of the station. There is valuable intel there.]])
+        valuable_intel = SupplyDrop():setFaction("Human Navy"):setPosition(693145,-194086)
+        mission_state = phase3CollectRemains
+      end
 end
 
 
 
 function phase3CollectRemains(delta)
 
+      if not(valuable_intel:isValid()) then
+        shipyard_gamma:sendCommsMessage(player, [[Thank you. JC88 is coming to bring you home.]])
+        mission_state = phase3Escape
+      end
 
 end
 
