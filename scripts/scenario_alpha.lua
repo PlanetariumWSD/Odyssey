@@ -250,7 +250,7 @@ Doppler instability: %i]], b20_artifact.beta_radiation, b20_artifact.gravity_dis
 
     --mission_state = phase0FirstMessage
 
-    mission_state = phase2WaitTillNearObject
+    mission_state = phase2SpawnWormhole
 
 
 
@@ -507,17 +507,19 @@ end
 
 function phase3Escape(delta)
 
-
+        jc88:setPosition(693000,-194000)
+        if(player:isDocked(jc88))then
+          jc88:sendCommsMessage(player, [[Heading Home!]])
+          jc88:setPosition(18972, 135882)
+          mission_state = phase3HangAroundStation
+        end
 end
 
 
+function phase3HangAroundStation(delta)
 
 
-
-
-
-
-
+end
 
 
 
