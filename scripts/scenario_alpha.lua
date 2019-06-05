@@ -3,8 +3,8 @@
 --- You must check out ship systems and complete an initial mission.
 -- Type: Mission
 
---My name is Nathanael Acker.
 
+--Nathan is the best
 --[[Problems
 no rep at start....
 Unclear who to contact for first mission
