@@ -261,6 +261,13 @@ Doppler instability: %i]], b20_artifact.beta_radiation, b20_artifact.gravity_dis
 
     phase1_MessagePowerupTimer = 5
     phase1_SkippedTutorialMissionBreifTimer = 5
+    phase3_AnalyzingDataTimer = 10
+    phase3_AnalyzingDataTimer2 = 10
+    phase3_EnemyFleetAttackTimer = 10
+
+    phase3_FirstMessage = false
+    phase3_SecondMessage = false
+    phase3_ThirdMessage = false
     --[[TEMP
     mission_state = phase2SeekArtifact
     player:setPosition(310000, -71000)
@@ -474,6 +481,7 @@ function phase3DestroyShips(delta)
     if not((wormholeguard1:isValid()) and (wormholeguard2:isValid()) and (wormholeguard3:isValid())) then
         shipyard_gamma:sendCommsMessage(player, scrambleMessage([[ YAYYYYYYY ]]))
         mission_state = phase3destroyStationMessage
+      else
     end
 end
 
@@ -506,18 +514,40 @@ end
 
 
 function phase3Escape(delta)
-
-        jc88:setPosition(693000,-194000)
-        if(player:isDocked(jc88))then
-          jc88:sendCommsMessage(player, [[Heading Home!]])
-          jc88:setPosition(18972, 135882)
-          mission_state = phase3HangAroundStation
-        end
+  jc88:setPosition(693000,-194000)
+  if(player:isDocked(jc88))then
+    jc88:sendCommsMessage(player, [[Heading Home!]])
+    jc88:setPosition(18972, 135882)
+    mission_state = phase3AnalizingData
+  end
 end
 
 
-function phase3HangAroundStation(delta)
+function phase3AnalizingData(delta)
+  if(player:isDocked(shipyard_gamma)) then
+    if(phase3_FirstMessage == false) then
+      shipyard_gamma:sendCommsMessage(player, [[We have recived the intel you collected and are decrypting the data, hold on.]])
+      phase3_FirstMessage = true
+    end
+    phase3_AnalyzingDataTimer = phase3_AnalyzingDataTimer - delta
+    if(phase3_AnalyzingDataTimer < 0) then
+      if(phase3_SecondMessage == false)
+        shipyard_gamma:sendCommsMessage(player, [[It seems like the station you destroyed was testing a prototype weapon of some sorts. We will further
+      analyze it.]])
+        phase3_SecondMessage = true
+      end
+      phase3_AnalyzingDataTimer2 = phase3_AnalyzingDataTimer2 - delta
+      if(phase3_AnalyzingDataTimer2 < 0)
+        if(phase3_ThirdMessage == false)
+          shipyard_gamma:sendCommsMessage(player, [[This station was the cause of the whormhole, it looks like they are testing a new weapon that can launch wormholes.
+          If used correctly the Kraylor could send their entire fleet right ontop of Earth! There is a little more here please hold.]])
+          phase3_ThirdMessage = true
+        end
+      end
+    end
 
+
+  end
 
 end
 
@@ -568,14 +598,6 @@ Dock with JC-88 and it will handle the rest.]])
     end
     if mission_state == phase2SeekArtifact or mission_state == phase2ReportArtifactReadings then
         artifactReportComms()
-        return
-    end
-    if mission_state == phase3ReportBackToShipyard then
-        setCommsMessage([[Atlantis-1,
-We've downloaded all the data you collected thanks to the short range quantum entangled data communication radar.
-We are working trough the data right now. We will contact you when we have more details.]])
-        mission_state = phase3AnalizingData
-        phase3AnalizingData_timeout = 60.0
         return
     end
 
@@ -704,26 +726,6 @@ function putKraylorDefenseLineOnFullOffense()
 end
 
 function update(delta)
-    if not player:isValid() or (not jc88:isValid() and mission_state ~= phase5OdinAttack) then
-        defeat_timeout = defeat_timeout - delta
-        if defeat_timeout < 0.0 then
-            victory("Kraylor")
-            return
-        end
-    end
-
-    --If the player enters the kraylor defense line, or engages a forward station, attack him full force.
-    for _, warp_jammer in ipairs(kraylor_defense_line) do
-        if distance(player, warp_jammer) < 6000 then
-            putKraylorDefenseLineOnFullOffense()
-        end
-    end
-    for _, station in ipairs(kraylor_forward_line) do
-        if distance(player, station) < 3000 then
-            putKraylorDefenseLineOnFullOffense()
-        end
-    end
-
     if mission_state ~= nil then
         mission_state(delta)
     end
