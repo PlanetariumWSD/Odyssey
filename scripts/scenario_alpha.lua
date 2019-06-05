@@ -506,7 +506,7 @@ end
 
 
 function phase3CollectRemains(delta)
-
+      jc88:setPosition(0,0)
       if not(valuable_intel:isValid()) then
         shipyard_gamma:sendCommsMessage(player, [[Thank you. JC88 is coming to bring you home.]])
         mission_state = phase3Escape
@@ -515,14 +515,24 @@ function phase3CollectRemains(delta)
 end
 
 
+-- function phase3Escape(delta)
+--   jc88:setPosition(693000,-194000)
+--   if(player:isDocked(jc88))then
+--     jc88:sendCommsMessage(player, [[Heading Home!]])
+--     jc88:setPosition(18972, 135882)
+--     mission_state = phase3AnalizingData
+--   end
+-- end
+
 function phase3Escape(delta)
-  jc88:setPosition(693000,-194000)
-  if(player:isDocked(jc88))then
-    jc88:sendCommsMessage(player, [[Heading Home!]])
-    jc88:setPosition(18972, 135882)
+  --use  orderFlyTowardsBlind
+  if handleJumpCarrier(jc88, 0, 0, 693000, -194000, [[Heading Home!]]) then
+    shipyard_gamma:sendCommsMessage(player, [[Do you get this message?]])
+    jc88:sendCommsMessage(player, [[We are home.]])
     mission_state = phase3AnalizingData
   end
 end
+
 
 
 function phase3AnalizingData(delta)
@@ -533,23 +543,26 @@ function phase3AnalizingData(delta)
     end
     phase3_AnalyzingDataTimer = phase3_AnalyzingDataTimer - delta
     if(phase3_AnalyzingDataTimer < 0) then
-      if(phase3_SecondMessage == false)
+      if(phase3_SecondMessage == false) then
         shipyard_gamma:sendCommsMessage(player, [[It seems like the station you destroyed was testing a prototype weapon of some sorts. We will further
       analyze it.]])
         phase3_SecondMessage = true
       end
       phase3_AnalyzingDataTimer2 = phase3_AnalyzingDataTimer2 - delta
-      if(phase3_AnalyzingDataTimer2 < 0)
-        if(phase3_ThirdMessage == false)
+      if(phase3_AnalyzingDataTimer2 < 0) then
+        if(phase3_ThirdMessage == false) then
           shipyard_gamma:sendCommsMessage(player, [[This station was the cause of the whormhole, it looks like they are testing a new weapon that can launch wormholes.
           If used correctly the Kraylor could send their entire fleet right ontop of Earth! There is a little more here please hold.]])
           phase3_ThirdMessage = true
         end
+        mission_state = phase4_AttackOnBase
       end
     end
-
-
   end
+
+end
+
+function phase4_AttackOnBase(delta)
 
 end
 
@@ -696,13 +709,13 @@ function handleJumpCarrier(jc, source_x, source_y, dest_x, dest_y, jumping_messa
             jumping_state = 'wait_for_jump'
         end
     elseif jumping_state == 'wait_for_jump' then
-        if distance(jc, dest_x, dest_y) < 10000 then
+        if distance(jc, dest_x, dest_y) < 100000000 then
             --We check for the player 1 tick later, as it can take a game tick for the player position to update as well.
             jumping_state = 'check_for_player'
         end
     elseif jumping_state == 'check_for_player' then
         jumping_state = 'wait_for_dock'
-        if distance(player, dest_x, dest_y) < 10000 then
+        if distance(player, dest_x, dest_y) < 100000000 then
             --Good, continue.
             return true
         else
@@ -715,17 +728,6 @@ This happens sometimes. I am on my way so we can try again.]])
     return false
 end
 
-function putKraylorDefenseLineOnFullOffense()
-    if not kraylor_defense_line_engaged then
-        for _, ship in ipairs(kraylor_defense_line_ships) do
-            if ship:isValid() then
-                ship:orderAttack(player)
-            end
-        end
-        kraylor_defense_line_ships[1]:sendCommsMessage(player, [[Human intruder. Surrender yourself.]])
-        kraylor_defense_line_engaged = true
-    end
-end
 
 function update(delta)
     if mission_state ~= nil then
