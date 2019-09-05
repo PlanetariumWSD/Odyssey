@@ -525,9 +525,9 @@ end
 -- end
 
 function phase3Escape(delta)
-  --use  orderFlyTowardsBlind
-  if handleJumpCarrier(jc88, 0, 0, 693000, -194000, [[Heading Home!]]) then
-    shipyard_gamma:sendCommsMessage(player, [[Do you get this message?]])
+  --use orderFlyTowardsBlind
+  jc88:orderFlyTowardsBlind(694555, -193165)
+  if handleJumpCarrier(jc88, 694555, -193165,0,0, [[Heading Home!]]) then
     jc88:sendCommsMessage(player, [[We are home.]])
     mission_state = phase3AnalizingData
   end
