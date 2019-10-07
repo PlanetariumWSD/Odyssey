@@ -54,7 +54,7 @@ Rundown of the mission:
 -- Init is run when the scenario is started. Create your initial world
 function init()
     -- Create the main ship for the players.
-    player = PlayerSpaceship():setFaction("Human Navy"):setTemplate("Atlantis")
+  player = PlayerSpaceship():setFaction("Human Navy"):setTemplate("Atlantis")
 	player:setPosition(25276, 133850):setCallSign("Atlantis-1"):setRotation(-90):commandTargetRotation(-90)
     for _, system in ipairs({"reactor", "beamweapons", "missilesystem", "maneuver", "impulse", "warp", "jumpdrive", "frontshield", "rearshield"}) do
         player:setSystemPower(system, 0.0)
@@ -78,6 +78,16 @@ function init()
             reinforcements = "none",
         }
     }
+
+
+    WormHole():setPosition(25000, 133850):setTargetPosition(688636,-194683)
+
+
+    --These are the wormhole guards and station.
+    wormhole_creation_station = SpaceStation():setTemplate("Medium Station"):setFaction("Kraylor"):setCallSign("Wormhole Creation Station"):setPosition(693145,-194086):setShieldsMax(200)
+    wormholeguard1 = CpuShip():setFaction("Kraylor"):setTemplate("Adder MK5"):setCallSign("WC1"):setPosition(690000,-190000):orderDefendLocation(693145,-194086):setWeaponStorage("Homing", 0):setWeaponStorage("HVLI", 4)
+    wormholeguard2 = CpuShip():setFaction("Kraylor"):setTemplate("Adder MK5"):setCallSign("WC2"):setPosition(690000,-190000):orderDefendLocation(693145,-194086)
+    wormholeguard3 = CpuShip():setFaction("Kraylor"):setTemplate("Adder MK5"):setCallSign("WC3"):setPosition(690000,-190000):orderDefendLocation(693145,-194086):setWeaponStorage("HVLI", 3)
 
     mother_station = SpaceStation():setTemplate("Huge Station"):setFaction("Human Navy"):setCallSign("Command Station Terra 41"):setPosition(10000000, 1000000)
 
@@ -250,9 +260,11 @@ Doppler instability: %i]], b20_artifact.beta_radiation, b20_artifact.gravity_dis
 
     --Set the initial mission state
 
-    --mission_state = phase0FirstMessage
+    --mission_state = phase0FirstMessage    standard beginning of the game
 
-    mission_state = phase2SpawnWormhole
+    --mission_state = phase2SpawnWormhole   brings player to wormhole event
+
+    mission_state = phase3DestroyStation
 
 
 
@@ -290,8 +302,7 @@ Doppler instability: %i]], b20_artifact.beta_radiation, b20_artifact.gravity_dis
     player:setPosition(24000, 125000)
     --]]
 end
-shipX = 0
-shipY = 0
+
 
 function phase0FirstMessage(delta)
 
@@ -513,6 +524,7 @@ function phase3CollectRemains(delta)
       jc88:setPosition(0,0)
       if not(valuable_intel:isValid()) then
         shipyard_gamma:sendCommsMessage(player, [[Thank you. JC88 is coming to bring you home.]])
+        jc88:orderFlyTowardsBlind(693246, -191874)
         mission_state = phase3Escape
       end
 
@@ -528,16 +540,31 @@ end
 --   end
 -- end
 
+
+--function phase3Escape(delta)
+  --use orderFlyTowardsBlind
+  --if handleJumpCarrier(jc88, 693246, -191874,0,0, [[Heading Home!]]) then
+  --  jc88:sendCommsMessage(player, [[We are home.]])
+    --mission_state = phase3AnalizingData
+  --end
+--end
+
+
+
 function phase3Escape(delta)
 
-      shipX, shipY = jc:getPosition()
-      if(betterHandleJumpCarrier(jc88,0,0,[[We are heading home!]])) then
-        jc88:sendCommsMessage(player,[[Yay! We are home!]])
+    jumping_state = 'wait_for_dock'
 
-        mission_state = phase3AnalizingData
-      end
+      betterHandleJumpCarrier(jc88,0,0,[[We are heading home!]])
+      jc88:sendCommsMessage(player,[[Yay! We are home!]])
+
+
+
+
+
+      mission_state = phase3AnalizingData
+
 end
-
 
 
 function phase3AnalizingData(delta)
@@ -733,9 +760,8 @@ This happens sometimes. I am on my way so we can try again.]]--[[)
     return false
 end]]
 
+
 function betterHandleJumpCarrier(jc, x, y, message)
-
-
     if((player:isDocked(jc)) and (not ship_jumped)) then
       ship_jumped = true
       jc:orderFlyTowardsBlind(x, y)
@@ -743,15 +769,9 @@ function betterHandleJumpCarrier(jc, x, y, message)
     end
 
 
-    if((shipX == x) and (shipY == y)) then
-    return true
-  end
 
 
 end
-
-
-
 
 
 function update(delta)
