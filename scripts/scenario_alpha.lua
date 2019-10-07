@@ -290,7 +290,8 @@ Doppler instability: %i]], b20_artifact.beta_radiation, b20_artifact.gravity_dis
     player:setPosition(24000, 125000)
     --]]
 end
-
+shipX = 0
+shipY = 0
 
 function phase0FirstMessage(delta)
 
@@ -529,10 +530,8 @@ end
 
 function phase3Escape(delta)
 
-
+      shipX, shipY = jc:getPosition()
       if(betterHandleJumpCarrier(jc88,0,0,[[We are heading home!]])) then
-
-
         jc88:sendCommsMessage(player,[[Yay! We are home!]])
 
         mission_state = phase3AnalizingData
@@ -742,7 +741,8 @@ function betterHandleJumpCarrier(jc, x, y, message)
       jc:orderFlyTowardsBlind(x, y)
       jc:sendCommsMessage(player, message)
     end
-    if(jc:getPosition() == x, y)
+
+    if((shipX == x) and (shipY == y)) then
     return true
   end
 
