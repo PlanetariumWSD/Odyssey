@@ -762,11 +762,21 @@ end]]
 
 
 function betterHandleJumpCarrier(jc, x, y, message)
+
+
     if((player:isDocked(jc)) and (not ship_jumped)) then
       ship_jumped = true
       jc:orderFlyTowardsBlind(x, y)
       jc:sendCommsMessage(player, message)
     end
+
+
+    if((shipX == x) and (shipY == y)) then
+    return true
+  end
+
+
+end
 
 
 
