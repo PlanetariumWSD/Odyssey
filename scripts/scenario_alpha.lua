@@ -555,7 +555,7 @@ function phase3Escape(delta)
 
     jumping_state = 'wait_for_dock'
 
-    if handleJumpCarrier(jc88,693246,-191874,0,0,[[We are heading home!]]) then
+    if  betterHandleJumpCarrier(jc88,693246,-191874,0,0,[[We are heading home!]]) then
       jc88:sendCommsMessage(player,[[Yay! We are home!]])
 
 
