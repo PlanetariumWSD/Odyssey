@@ -270,6 +270,9 @@ Doppler instability: %i]], b20_artifact.beta_radiation, b20_artifact.gravity_dis
     phase3_FirstMessage = false
     phase3_SecondMessage = false
     phase3_ThirdMessage = false
+
+
+    ship_jumped = false;
     --[[TEMP
     mission_state = phase2SeekArtifact
     player:setPosition(310000, -71000)
@@ -700,7 +703,7 @@ function scrambleMessage(message)
 end
 
 --[[ Assistance function to help with the details of the player using a jump carrier. --]]
-jumping_state = 'wait_for_dock'
+--[[jumping_state = 'wait_for_dock'
 function handleJumpCarrier(jc, source_x, source_y, dest_x, dest_y, jumping_message)
     if jumping_state == 'wait_for_dock' then
         if player:isDocked(jc) then
@@ -722,10 +725,23 @@ function handleJumpCarrier(jc, source_x, source_y, dest_x, dest_y, jumping_messa
             --You idiot. JC-88 will fly back.
             jc88:orderFlyTowardsBlind(source_x, source_y)
             jc88:sendCommsMessage(player, [[Looks like the docking couplers detached pre-maturely.
-This happens sometimes. I am on my way so we can try again.]])
+This happens sometimes. I am on my way so we can try again.]]--[[)
         end
     end
     return false
+end]]
+
+
+function betterHandleJumpCarrier(jc, x, y, message)
+    if((player:isDocked(jc)) and (not ship_jumped)) then
+      ship_jumped = true
+      jc:orderFlyTowardsBlind(x, y)
+      jc:sendCommsMessage(player, message)
+    end
+
+
+
+
 end
 
 
