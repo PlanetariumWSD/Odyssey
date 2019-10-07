@@ -102,7 +102,7 @@ function init()
     table.insert(b20_nebula_list, Nebula():setPosition(325643, -88627))
     table.insert(b20_nebula_list, Nebula():setPosition(328671, -79788))
     table.insert(b20_nebula_list, Nebula():setPosition(315655, -85367))
-    
+
     nebula = table.remove(b20_nebula_list, math.random(#b20_nebula_list))
     x, y = nebula:getPosition()
     b20_artifact = Artifact():setPosition(x + random(-1000, 1000), y + random(-1000, 1000))
@@ -135,7 +135,7 @@ Doppler instability: %i]], b20_artifact.beta_radiation, b20_artifact.gravity_dis
 
     x, y = table.remove(b20_nebula_list, math.random(#b20_nebula_list)):getPosition()
     CpuShip():setFaction("Ghosts"):setPosition(x + random(-1000, 1000), y + random(-1000, 1000)):setTemplate("Starhammer II"):orderDefendLocation(x, y)
-    
+
     --kraylor defense line.
     kraylor_defense_line = {
         WarpJammer():setFaction("Kraylor"):setPosition(7657, -264940),
@@ -221,7 +221,7 @@ Doppler instability: %i]], b20_artifact.beta_radiation, b20_artifact.gravity_dis
             table.insert(kraylor_defense_line_ships, ship2)
         end
     end
-    
+
     Nebula():setPosition(-21914, -272098)
     Nebula():setPosition(44037, -290617)
     Nebula():setPosition(28814, -261708)
@@ -232,10 +232,13 @@ Doppler instability: %i]], b20_artifact.beta_radiation, b20_artifact.gravity_dis
     createObjectsOnLine(-12037, -278682, 55663, -258414, 1000, Asteroid, 4, 90, 10000)
 
     --Set the initial mission state
-    mission_state = phase1MessagePowerup
-    
+
+    --mission_state = phase1MessagePowerup
+
+    mission_state = phase3FindHoleInTheKraylorDefenseLine
+
     defeat_timeout = 2.0 --The defeat timeout means it takes 2 seconds before a defeat is actually done. This gives some missiles and explosions time to impact.
-    
+
     --[[TEMP
     mission_state = phase2SeekArtifact
     player:setPosition(310000, -71000)
@@ -243,11 +246,11 @@ Doppler instability: %i]], b20_artifact.beta_radiation, b20_artifact.gravity_dis
         player:setSystemPower(system, 1.0)
         player:commandSetSystemPowerRequest(system, 1.0)
     end
-    
+
     --TEMP
     mission_state = phase2WaitTillWormholeWarpedPlayer
     player:setPosition(30036, -270545)
-    
+
     --TEMP
     mission_state = phase3ReportBackToShipyard
     player:setPosition(24000, 125000)
@@ -315,7 +318,7 @@ function phase1DestroyDummyShips(delta)
         --Keep the shield of Dummy-2 charged to 30, which means it can be taken out with a single blast from a homing missile or nuke, but not by beam weapons.
         target_dummy_2:setShields(30)
     end
-    
+
     if not target_dummy_1:isValid() and not target_dummy_2:isValid() then
         shipyard_gamma:sendCommsMessage(player, [[Good, all weapons are operational.
 Your ship seems to be in perfect operating condition.
@@ -385,7 +388,7 @@ We are reading a huge gravity surge from your direction. Get the hell out of the
     player:setSystemHealth("jumpdrive", player:getSystemHealth("jumpdrive") - random(1.3, 1.5))
     player:setSystemHealth("frontshield", player:getSystemHealth("frontshield") - random(0.0, 0.5))
     player:setSystemHealth("rearshield", player:getSystemHealth("rearshield") - random(0.0, 0.5))
-    
+
     mission_state = phase2WaitTillWormholeWarpedPlayer
 end
 
@@ -461,7 +464,7 @@ end
 
 function phase4DestroyTheTransport(delta)
     if kraylor_transport:isValid() then
-        if kraylor_transport:isDocked(kraylor_transport.current_station) then   
+        if kraylor_transport:isDocked(kraylor_transport.current_station) then
             kraylor_transport.current_station = kraylor_forward_line[irandom(1, #kraylor_forward_line)]
             kraylor_transport:orderDock(kraylor_transport.current_station)
         end
@@ -590,7 +593,7 @@ function phase5OdinAttack(delta)
     if distance(player, odin) > 30000 then
         victory("Human Navy")
     end
-    
+
     if not odin.target:isValid() then
         if shipyard_gamma:isValid() then
             odin.target = shipyard_gamma
@@ -642,7 +645,7 @@ We are working trough the data right now. We will contact you when we have more 
         phase3AnalizingData_timeout = 60.0
         return
     end
-    
+
     setCommsMessage([[Good day Atlantis-1.
 Please continue with your current objective.]])
 end
@@ -754,7 +757,8 @@ This happens sometimes. I am on my way so we can try again.]])
         end
     end
     return false
-end
+
+
 
 function putKraylorDefenseLineOnFullOffense()
     if not kraylor_defense_line_engaged then
@@ -776,7 +780,7 @@ function update(delta)
             return
         end
     end
-    
+
     --If the player enters the kraylor defense line, or engages a forward station, attack him full force.
     for _, warp_jammer in ipairs(kraylor_defense_line) do
         if distance(player, warp_jammer) < 6000 then
@@ -788,7 +792,7 @@ function update(delta)
             putKraylorDefenseLineOnFullOffense()
         end
     end
-    
+
     if mission_state ~= nil then
         mission_state(delta)
     end
