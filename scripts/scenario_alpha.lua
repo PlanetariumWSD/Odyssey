@@ -532,6 +532,7 @@ function phase3Escape(delta)
 
       if(betterHandleJumpCarrier(jc88,0,0,[[We are heading home!]])) then
 
+
         jc88:sendCommsMessage(player,[[Yay! We are home!]])
 
         mission_state = phase3AnalizingData
