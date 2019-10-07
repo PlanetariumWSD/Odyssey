@@ -742,6 +742,7 @@ function betterHandleJumpCarrier(jc, x, y, message)
       jc:sendCommsMessage(player, message)
     end
 
+
     if((shipX == x) and (shipY == y)) then
     return true
   end
