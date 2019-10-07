@@ -528,12 +528,18 @@ end
 -- end
 
 function phase3Escape(delta)
-  --use orderFlyTowardsBlind
-  jc88:orderFlyTowardsBlind(694555, -193165)
-  if handleJumpCarrier(jc88, 694555, -193165,0,0, [[Heading Home!]]) then
-    jc88:sendCommsMessage(player, [[We are home.]])
-    mission_state = phase3AnalizingData
-  end
+
+    jumping_state = 'wait_for_dock'
+
+      betterHandleJumpCarrier(jc88,0,0,[[We are heading home!]])
+      jc88:sendCommsMessage(player,[[Yay! We are home!]])
+
+
+
+
+
+      mission_state = phase3AnalizingData
+
 end
 
 
@@ -732,6 +738,8 @@ This happens sometimes. I am on my way so we can try again.]]--[[)
 end]]
 
 function betterHandleJumpCarrier(jc, x, y, message)
+
+
     if((player:isDocked(jc)) and (not ship_jumped)) then
       ship_jumped = true
       jc:orderFlyTowardsBlind(x, y)
