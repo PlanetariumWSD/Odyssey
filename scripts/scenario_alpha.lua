@@ -600,6 +600,27 @@ end
 
 
 
+function  phase5_theFinalBattle(delta)
+
+--Mothership--
+mothership = CpuShip():setFaction("Kraylor"):setTemplate("Adder MK5"):setCallSign("WC1"):setPosition(0,0)
+
+--Shield Generators--
+shieldGenerator1 = CpuShip():setFaction("Kraylor"):setTemplate("Adder MK5"):setCallSign("WC1"):setPosition(0,100)
+shieldGenerator2 = CpuShip():setFaction("Kraylor"):setTemplate("Adder MK5"):setCallSign("WC1"):setPosition(50,-50)
+shieldGenerator3 = CpuShip():setFaction("Kraylor"):setTemplate("Adder MK5"):setCallSign("WC1"):setPosition(-50,-50)
+
+if(shieldGenerator1:isValid())
+
+  x = mothership:getShieldLevel(1)
+  x+=5
+
+
+
+end
+
+
+
 
 --[[*********************************************************************--]]
 function shipyardGammaComms()
@@ -781,7 +802,6 @@ end
 
 
 
-end
 
 
 function update(delta)
