@@ -264,7 +264,7 @@ Doppler instability: %i]], b20_artifact.beta_radiation, b20_artifact.gravity_dis
 
     --mission_state = phase2SpawnWormhole   brings player to wormhole event
 
-    mission_state = phase3DestroyStation
+    mission_state = phase4_AttackOnBase
 
 
 
@@ -596,26 +596,42 @@ end
 
 function phase4_AttackOnBase(delta)
 
+
+  mothership = CpuShip():setFaction("Kraylor"):setTemplate("Adder MK5"):setCallSign("mothership"):setPosition(0,0):setShieldsMax(28)
+
+  --Shield Generators--
+  shieldGenerator1 = CpuShip():setFaction("Kraylor"):setTemplate("Adder MK5"):setCallSign("sg1"):setPosition(0,1000)
+  shieldGenerator2 = CpuShip():setFaction("Kraylor"):setTemplate("Adder MK5"):setCallSign("sg2"):setPosition(500,-500)
+  shieldGenerator3 = CpuShip():setFaction("Kraylor"):setTemplate("Adder MK5"):setCallSign("sg3"):setPosition(-500,-500)
+
+  mission_state = phase5_theFinalBattle
+
 end
 
 
+x=5
 
 function  phase5_theFinalBattle(delta)
 
 --Mothership--
-mothership = CpuShip():setFaction("Kraylor"):setTemplate("Adder MK5"):setCallSign("WC1"):setPosition(0,0)
 
---Shield Generators--
-shieldGenerator1 = CpuShip():setFaction("Kraylor"):setTemplate("Adder MK5"):setCallSign("WC1"):setPosition(0,100)
-shieldGenerator2 = CpuShip():setFaction("Kraylor"):setTemplate("Adder MK5"):setCallSign("WC1"):setPosition(50,-50)
-shieldGenerator3 = CpuShip():setFaction("Kraylor"):setTemplate("Adder MK5"):setCallSign("WC1"):setPosition(-50,-50)
-
-if(shieldGenerator1:isValid())
-
-  x = mothership:getShieldLevel(1)
-  x+=5
+shipsShieldsMax = mothership:getShieldLevel(0)
+shieldsMax = 28
 
 
+if(shipsShieldsMax <= shieldsMax) then
+
+if(shieldGenerator1:isValid()) then
+
+  x = x + 5
+
+  mothership:setShields(x)
+
+
+
+end
+
+end
 
 end
 
