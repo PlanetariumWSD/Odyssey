@@ -597,41 +597,41 @@ end
 function phase4_AttackOnBase(delta)
 
 
-  mothership = CpuShip():setFaction("Kraylor"):setTemplate("Adder MK5"):setCallSign("mothership"):setPosition(0,0):setShieldsMax(28)
+  mothership = CpuShip():setFaction("Kraylor"):setTemplate("Adder MK5"):setCallSign("mothership"):setPosition(0,0):setShieldsMax(50):setShields(0)
 
   --Shield Generators--
   shieldGenerator1 = CpuShip():setFaction("Kraylor"):setTemplate("Adder MK5"):setCallSign("sg1"):setPosition(0,1000)
   shieldGenerator2 = CpuShip():setFaction("Kraylor"):setTemplate("Adder MK5"):setCallSign("sg2"):setPosition(500,-500)
   shieldGenerator3 = CpuShip():setFaction("Kraylor"):setTemplate("Adder MK5"):setCallSign("sg3"):setPosition(-500,-500)
+  x=5
 
   mission_state = phase5_theFinalBattle
 
 end
 
 
-x=5
+
 
 function  phase5_theFinalBattle(delta)
 
---Mothership--
-
-shipsShieldsMax = mothership:getShieldLevel(0)
-shieldsMax = 28
 
 
-if(shipsShieldsMax <= shieldsMax) then
-
-if(shieldGenerator1:isValid()) then
-
-  x = x + 5
-
-  mothership:setShields(x)
+mothershipShieldsCurrent = mothership:getShieldLevel(0)
 
 
 
-end
 
-end
+  if(shieldGenerator1:isValid()) then
+
+    if(mothershipShieldsCurrent < 50 ) then
+
+      mothershipShieldsCurrent = mothershipShieldsCurrent + 1
+
+      mothership:setShields(mothershipShieldsCurrent)
+
+    end
+
+  end
 
 end
 
