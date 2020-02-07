@@ -406,9 +406,9 @@ function phase1SkippedTutorialMissionBreif(delta)
 	phase1_SkippedTutorialMissionBreifTimer = phase1_SkippedTutorialMissionBreifTimer - delta
 
 	if phase1_SkippedTutorialMissionBreifTimer < 0 then
-		shipyard_gamma:sendCommsMessage(player, [[We have been detecting faint signals from a nearby dense nebula cluster.
-Juicy Double Eight will transport you to sector B20 which is nearby the nebula.
-Your job will be to find the source of the readings and report back. Dock with Juicy Double Eight to begin.]])
+		shipyard_gamma:sendCommsMessage(player, [[Our scouts have started to pick up faint signals from inside a nearby dense nebula cluster.
+    We want you to find the source of the signals and report back to us. Your ship is not equiped with the engines
+    to travel to the neblua alone so dock with our jump carrier Juicy Double Eight and he will transport you there. Good luck Atlantis]])
 		mission_state = phase2WaitForJump
 	end
 
@@ -670,9 +670,9 @@ Please continue with your current objective.]])
         setCommsMessage([[Atlantis-1, all ready and set to go on your first mission?]])
         addCommsReply("Yes", function()
             setCommsMessage([[Good.
-Your first mission will be to seek out odd readings comming from the nebula cloud in sector B20.
-Your ship is not equipped to travel this distance by itself, so we have tasked the Jump carrier JC-88 to take you there.
-Dock with JC-88 and it will handle the rest.]])
+            Our scouts have started to pick up faint signals from inside a nearby dense nebula cluster.
+            We want you to find the source of the signals and report back to us. Your ship is not equiped with the engines
+            to travel to the neblua alone so dock with our jump carrier Juicy Double Eight and he will transport you there. Good luck Atlantis!]])
             mission_state = phase2WaitForJump
         end)
         addCommsReply("No", function()
