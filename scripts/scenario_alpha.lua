@@ -1,6 +1,6 @@
 -- Name: Project Alpha
--- Description: You are the first crew of a new and improved version of the Atlantis space explorer.
---- You must check out ship systems and complete an initial mission.
+-- Description: This is a script created by Nathanael Acker and Nathan Dreher.
+--- It improves the code and gameplay that is found in the Birth of Atlantis mission.
 -- Type: Mission
 
 
@@ -596,14 +596,24 @@ end
 
 function phase4_AttackOnBase(delta)
 
-
-  mothership = CpuShip():setFaction("Kraylor"):setTemplate("Adder MK5"):setCallSign("mothership"):setPosition(0,0):setShieldsMax(50):setShields(0)
+  --mothership
+  mothership = CpuShip():setFaction("Kraylor"):setTemplate("Adder MK5"):setCallSign("mothership"):setPosition(0,0):setShieldsMax(50):setShields(0):setRotation(90)
 
   --Shield Generators--
-  shieldGenerator1 = CpuShip():setFaction("Kraylor"):setTemplate("Adder MK5"):setCallSign("sg1"):setPosition(0,1000)
-  shieldGenerator2 = CpuShip():setFaction("Kraylor"):setTemplate("Adder MK5"):setCallSign("sg2"):setPosition(500,-500)
-  shieldGenerator3 = CpuShip():setFaction("Kraylor"):setTemplate("Adder MK5"):setCallSign("sg3"):setPosition(-500,-500)
-  x=5
+  shieldGenerator1 = CpuShip():setFaction("Kraylor"):setTemplate("Adder MK5"):setCallSign("sg1"):setPosition(0,1000):setRotation(90)
+  shieldGenerator2 = CpuShip():setFaction("Kraylor"):setTemplate("Adder MK5"):setCallSign("sg2"):setPosition(500,-500):setRotation(90)
+  shieldGenerator3 = CpuShip():setFaction("Kraylor"):setTemplate("Adder MK5"):setCallSign("sg3"):setPosition(-500,-500):setRotation(90)
+
+  shipyard_gamma:sendCommsMessage(player, [[Oh no! We are under attack! Here, take this ship upgrade to assist in your defense!]])
+
+
+  player:setWeaponStorage("Homing", 20)
+  player:setWeaponStorage("Nuke", 5)
+  player:setWeaponStorage("EMP", 5)
+  player:setWeaponStorage("Mine", 10)
+  player:setWeaponStorage("HVLI", 30)
+
+
 
   mission_state = phase5_theFinalBattle
 
@@ -614,24 +624,18 @@ end
 
 function  phase5_theFinalBattle(delta)
 
+  if not mothership:isValid() then
+    --This is the FINAL win condition.
+    globalMessage("You Win!!!")
 
-
-mothershipShieldsCurrent = mothership:getShieldLevel(0)
-
-
-
-
-  if(shieldGenerator1:isValid()) then
-
-    if(mothershipShieldsCurrent < 50 ) then
-
-      mothershipShieldsCurrent = mothershipShieldsCurrent + 1
-
-      mothership:setShields(mothershipShieldsCurrent)
-
-    end
+    --Destroy the shield generators if you somehow won without taking them out first.
+    shieldGenerator1:destroy()
+    shieldGenerator2:destroy()
+    shieldGenerator3:destroy()
 
   end
+
+  checkForShieldGenerators()
 
 end
 
@@ -816,6 +820,49 @@ function betterHandleJumpCarrier(jc, x, y, message)
 end
 
 
+
+function checkForShieldGenerators()
+
+
+  mothershipShieldsCurrent = mothership:getShieldLevel(0)
+
+  if(shieldGenerator1:isValid()) then
+
+    if(mothershipShieldsCurrent < 50) then
+
+      mothershipShieldsCurrent = mothershipShieldsCurrent + 1
+
+      mothership:setShields(mothershipShieldsCurrent)
+
+    end
+
+  end
+
+  if(shieldGenerator2:isValid()) then
+
+    if(mothershipShieldsCurrent < 50) then
+
+      mothershipShieldsCurrent = mothershipShieldsCurrent + 1
+
+      mothership:setShields(mothershipShieldsCurrent)
+
+    end
+
+  end
+
+  if(shieldGenerator3:isValid()) then
+
+    if(mothershipShieldsCurrent < 50) then
+
+      mothershipShieldsCurrent = mothershipShieldsCurrent + 1
+
+      mothership:setShields(mothershipShieldsCurrent)
+
+    end
+
+  end
+
+end
 
 
 
