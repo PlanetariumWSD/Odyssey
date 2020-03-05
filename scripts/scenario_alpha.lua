@@ -321,10 +321,10 @@ end
 
 function phase1MessagePowerup(delta)
 
-  phase1MessagePowerupTimer = phase1_MessagePowerupTimer - delta
-    if phase1_MessagePowerupTimer < 0 then
+  phase1_SkippedTutorialMissionBreifTimer = phase1_SkippedTutorialMissionBreifTimer - delta
+  player:setCallSign(phase1_MessagePowerupTimer)
+    if phase1_SkippedTutorialMissionBreifTimer < 0 then
         shipyard_gamma:sendCommsMessage(player, [[Come in Atlantis-1.
-Good, your communication systems seems to be working.
 As you well know, you are aboard the newest version of the Atlantis space explorer.
 We will take you through a few quick tests too see if the ship is operating as expected.
 
@@ -410,14 +410,15 @@ function phase1SkippedTutorialMissionBreif(delta)
 	if phase1_SkippedTutorialMissionBreifTimer < 0 then
 		shipyard_gamma:sendCommsMessage(player, [[Our scouts have started to pick up faint signals from inside a nearby dense nebula cluster.
     We want you to find the source of the signals and report back to us. Your ship is not equiped with the engines
-    to travel to the neblua alone so dock with our jump carrier Juicy Double Eight and he will transport you there. Good luck Atlantis]])
+    to travel to the neblua alone so dock with our jump carrier Juicy Double Eight and he will transport you there. Be prepared to fight as there may be enemies nearby your destination
+    Good luck Atlantis]])
 		mission_state = phase2WaitForJump
 	end
 
 end
 
 function phase2WaitForJump(delta)
-    if handleJumpCarrier(jc88, 24000, 125000, 310000, -71000, [[Hold on tight, heading for sector B20.]]) then
+    if betterHandleJumpCarrier(jc88, 304882, -71632, [[Hold on tight, heading for sector B20.]]) then
         --Good, continue.
         jc88:sendCommsMessage(player, [[Atlantis-1,
 Here we are. B20. Looks like there are some lingering Kraylors here.
