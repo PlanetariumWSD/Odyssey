@@ -80,7 +80,7 @@ function init()
     }
 
 
-    WormHole():setPosition(25000, 133850):setTargetPosition(688636,-194683)
+    --WormHole():setPosition(25000, 133850):setTargetPosition(688636,-194683)
 
 
     --These are the wormhole guards and station.
@@ -264,7 +264,7 @@ Doppler instability: %i]], b20_artifact.beta_radiation, b20_artifact.gravity_dis
 
     --mission_state = phase2SpawnWormhole   brings player to wormhole event
 
-    mission_state = phase4_AttackOnBase
+    mission_state = phase0FirstMessage
 
 
 
@@ -306,10 +306,10 @@ end
 
 function phase0FirstMessage(delta)
 
-	mother_station:sendCommsMessage(player, [[Come in Atlantis-1. Congratulations on you and your crews promotion. You now have control of
-one of the most advanced, and newest, medium frigiates in the Human Navy, the Atlantis Mark 3. With your promotion comes a new assigment.
-You have been stationed at Forward Outpost Gamma, one of our new outposts closest to the Kraylor boarder. Contanct Shipyard-Gamma for your
-first assigment.]])
+	mother_station:sendCommsMessage(player, [[Come in Atlantis-1. Congratulations on you and your crews promotion! You now have control of one of the most advanced, and newest, medium frigiates in the Human Navy, the Atlantis Mark 3.
+  With your promotion comes a new assigment.
+  You have been stationed at Forward Outpost Gamma, one of our new outposts closest to the Kraylor boarder.
+  Contanct Shipyard-Gamma for your first assigment.]])
 	mission_state = phase0TutorialDecide
 
 end
@@ -320,7 +320,7 @@ end
 
 
 function phase1MessagePowerup(delta)
-    if delta > 0 then
+    if phase1 > 0 then
         shipyard_gamma:sendCommsMessage(player, [[Come in Atlantis-1.
 Good, your communication systems seems to be working.
 As you well know, you are aboard the newest version of the Atlantis space explorer.
@@ -626,12 +626,23 @@ function  phase5_theFinalBattle(delta)
 
   if not mothership:isValid() then
     --This is the FINAL win condition.
-    globalMessage("You Win!!!")
+    globalMessage("Good job, you destroyed the enemies mothership! There forces are fleeing!")
+    if shieldGenerator1:isValid() then
+      mothership1 = CpuShip():setFaction("Kraylor"):setTemplate("odin"):setCallSign("mothership"):setPosition(0,0):setShieldsMax(50):setShields(0):setRotation(90)
+      mothership2 = CpuShip():setFaction("Kraylor"):setTemplate("odin"):setCallSign("mothership"):setPosition(0,0):setShieldsMax(50):setShields(0):setRotation(90)
+      mothership3 = CpuShip():setFaction("Kraylor"):setTemplate("odin"):setCallSign("mothership"):setPosition(0,0):setShieldsMax(50):setShields(0):setRotation(90)
+      mothership4 = CpuShip():setFaction("Kraylor"):setTemplate("odin"):setCallSign("mothership"):setPosition(0,0):setShieldsMax(50):setShields(0):setRotation(90)
+      mothership5 = CpuShip():setFaction("Kraylor"):setTemplate("odin"):setCallSign("mothership"):setPosition(0,0):setShieldsMax(50):setShields(0):setRotation(90)
+      mothership6 = CpuShip():setFaction("Kraylor"):setTemplate("odin"):setCallSign("mothership"):setPosition(0,0):setShieldsMax(50):setShields(0):setRotation(90)
+      mothership7 = CpuShip():setFaction("Kraylor"):setTemplate("odin"):setCallSign("mothership"):setPosition(0,0):setShieldsMax(50):setShields(0):setRotation(90)
+      mothership8 = CpuShip():setFaction("Kraylor"):setTemplate("odin"):setCallSign("mothership"):setPosition(0,0):setShieldsMax(50):setShields(0):setRotation(90)
+
+    end
 
     --Destroy the shield generators if you somehow won without taking them out first.
-    shieldGenerator1:destroy()
-    shieldGenerator2:destroy()
-    shieldGenerator3:destroy()
+    --shieldGenerator1:destroy()
+    --shieldGenerator2:destroy()
+    --shieldGenerator3:destroy()
 
   end
 
@@ -649,8 +660,7 @@ function shipyardGammaComms()
 Please continue with your current objective.]])
 
     if mission_state == phase0TutorialDecide then
-      setCommsMessage([[Atlantis-1, welcome to FO-Gamma, it is a pleasure to have one of the newest ships
-  in the fleet stationed here.
+      setCommsMessage([[Atlantis-1, welcome to Forward Outpost Gamma, it is a pleasure to have one of the newest ships in the fleet stationed here.
   Before we begin we have to go through some basic test procedures, would you like us to go through them with you?]])
       addCommsReply("Yes", function()
         setCommsMessage([[Ok, prepare for test sequence.]])
