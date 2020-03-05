@@ -320,7 +320,7 @@ end
 
 
 function phase1MessagePowerup(delta)
-    if phase1 > 0 then
+    if phase1_MessagePowerupTimer  > 0 then
         shipyard_gamma:sendCommsMessage(player, [[Come in Atlantis-1.
 Good, your communication systems seems to be working.
 As you well know, you are aboard the newest version of the Atlantis space explorer.
