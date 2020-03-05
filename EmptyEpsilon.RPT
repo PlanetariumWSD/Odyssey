@@ -1,0 +1,142 @@
+-------------------
+
+Error occured on Friday, February 7, 2020 at 12:54:12.
+
+EmptyEpsilon.exe caused an Access Violation at location 00606667 in module EmptyEpsilon.exe Reading from location 00000578.
+
+Loading symbols... done.
+
+Registers:
+eax=00000000 ebx=026b5b8c ecx=0a11d1a8 edx=00000000 esi=0075e8a0 edi=08aa4400
+eip=00606667 esp=0022f3b0 ebp=0022f438 iopl=0         nv up ei pl nz na pe nc
+cs=001b  ss=0023  ds=0023  es=0023  fs=003b  gs=0000             efl=00010202
+
+AddrPC   Params
+00606667 0022F4C8 0022F4B8 00000004  EmptyEpsilon.exe!setTemplate  [/home/daid/ee/EmptyEpsilon/src/spaceObjects/shipTemplateBasedObject.cpp @ 296]
+0075EA5C 026B5B8C 08AA4380 02630048  EmptyEpsilon.exe!function  [/home/daid/ee/SeriousProton/src/P.h @ 177]
+006F3EA5 026B5B8C 08AA43D0 00000001  EmptyEpsilon.exe!luaD_precall  [/home/daid/ee/SeriousProton/src/lua/ldo.c @ 337]
+0070781E 02200000 0A1B0C68 00000001  EmptyEpsilon.exe!luaV_execute  [/home/daid/ee/SeriousProton/src/lua/lvm.c @ 1084]
+763198CD 026B5B8C 08AA4390 00000000  msvcrt.dll!_free
+006F479E 026B5B8C 006F9E90 0022F6F8  EmptyEpsilon.exe!luaD_call  [/home/daid/ee/SeriousProton/src/lua/ldo.c @ 422]
+006F4B85 00000000 007E703C 007E67F4  EmptyEpsilon.exe! ??   [/home/daid/ee/SeriousProton/src/lua/ldo.c @ 644]
+006C1D2F 00000001 026CA0A8 0000000D  EmptyEpsilon.exe!runMainLoop  [/home/daid/ee/SeriousProton/src/engine.cpp @ 132]
+0079AED0 026416F0 0000001C 00000001  EmptyEpsilon.exe!main  [/home/daid/ee/EmptyEpsilon/src/main.cpp @ 274]
+004013E3 7FFD6000 0022FFD4 77063618  EmptyEpsilon.exe!__tmainCRTStartup  [./mingw-w64-crt/crt/crtexe.c @ 334]
+76C7EF3C 7FFD6000 77218D18 00000000  kernel32.dll!@BaseThreadInitThunk@12
+77063618 004014E0 7FFD6000 00000000  ntdll.dll!___RtlUserThreadStart@8
+770635EB 004014E0 7FFD6000 00000000  ntdll.dll!__RtlUserThreadStart@8
+
+EmptyEpsilon.exe
+ntdll.dll   	6.1.7601.24408
+kernel32.dll	6.1.7601.24408
+KERNELBASE.dll	6.1.7601.24408
+exchndl.dll 	0.7.7.0
+mgwhelp.dll 	0.7.7.0
+dbghelp.dll 	6.3.9600.17029
+msvcrt.dll  	7.0.7601.17744
+ADVAPI32.dll	6.1.7601.24408
+sechost.dll 	6.1.7601.18869
+RPCRT4.dll  	6.1.7601.24408
+PSAPI.DLL   	6.1.7600.16385
+SHELL32.DLL 	6.1.7601.24383
+SHLWAPI.dll 	6.1.7601.17514
+GDI32.dll   	6.1.7601.24404
+USER32.dll  	6.1.7601.23594
+LPK.dll     	6.1.7601.24280
+USP10.dll   	1.626.7601.23894
+VERSION.dll 	6.1.7600.16385
+sfml-audio-2.dll
+sfml-system-2.dll
+WINMM.DLL   	6.1.7601.17514
+libgcc_s_sjlj-1.dll
+libstdc++-6.dll
+libFLAC-8.dll
+libogg-0.dll
+libvorbis-0.dll
+libvorbisenc-2.dll
+libvorbisfile-3.dll
+OpenAL32.dll
+ole32.dll   	6.1.7601.24407
+sfml-graphics-2.dll
+sfml-window-2.dll
+OPENGL32.DLL	6.1.7600.16385
+GLU32.dll   	6.1.7600.16385
+DDRAW.dll   	6.1.7600.16385
+DCIMAN32.dll	6.1.7601.24280
+SETUPAPI.dll	6.1.7601.17514
+CFGMGR32.dll	6.1.7601.17514
+OLEAUT32.dll	6.1.7601.24407
+DEVOBJ.dll  	6.1.7600.16385
+dwmapi.dll  	6.1.7601.18917
+libjpeg-62.dll
+sfml-network-2.dll
+WS2_32.dll  	6.1.7601.23451
+NSI.dll     	6.1.7601.23889
+IPHLPAPI.DLL	6.1.7601.17514
+WINNSI.DLL  	6.1.7601.23889
+WSOCK32.DLL 	6.1.7600.16385
+IMM32.DLL   	6.1.7601.17514
+MSCTF.dll   	6.1.7601.23915
+CRYPTBASE.dll	6.1.7601.24408
+uxtheme.dll 	6.1.7600.16385
+CLBCatQ.DLL 	2001.12.8530.16385
+PROPSYS.dll 	7.0.7601.17514
+WINTRUST.dll	6.1.7601.24382
+CRYPT32.dll 	6.1.7601.24382
+MSASN1.dll  	6.1.7601.17514
+MMDevApi.dll	6.1.7601.17514
+AUDIOSES.DLL	6.1.7601.24382
+atiglpxx.dll	8.14.1.6210
+atioglxx.dll	6.14.10.10750
+atigktxx.dll	8.14.1.6210
+aticfx32.dll	8.17.10.1077
+atiadlxx.dll	6.14.10.1057
+USERENV.dll 	6.1.7601.17514
+profapi.dll 	6.1.7600.16385
+WTSAPI32.dll	6.1.7601.17514
+DINPUT.DLL  	6.1.7600.16385
+HID.DLL     	6.1.7600.16385
+mswsock.dll 	6.1.7601.23451
+wshtcpip.dll	6.1.7600.16385
+dhcpcsvc6.DLL	6.1.7601.17970
+dhcpcsvc.DLL	6.1.7600.16385
+WININET.dll 	11.0.9600.19326
+api-ms-win-downlevel-user32-l1-1-0.dll	6.2.9200.16492
+api-ms-win-downlevel-shlwapi-l1-1-0.dll	6.2.9200.16492
+api-ms-win-downlevel-version-l1-1-0.dll	6.2.9200.16492
+api-ms-win-downlevel-normaliz-l1-1-0.dll	6.2.9200.16492
+normaliz.DLL	6.1.7600.16385
+iertutil.dll	11.0.9600.19326
+api-ms-win-downlevel-advapi32-l1-1-0.dll	6.2.9200.16492
+Secur32.dll 	6.1.7601.24408
+SSPICLI.DLL 	6.1.7601.24408
+api-ms-win-downlevel-advapi32-l2-1-0.dll	6.2.9200.16492
+api-ms-win-downlevel-ole32-l1-1-0.dll	6.2.9200.16492
+wship6.dll  	6.1.7600.16385
+api-ms-win-downlevel-shlwapi-l2-1-0.dll	6.2.9200.16492
+DNSAPI.dll  	6.1.7601.24168
+netprofm.dll	6.1.7600.16385
+nlaapi.dll  	6.1.7601.17964
+urlmon.dll  	11.0.9600.19326
+rasadhlp.dll	6.1.7600.16385
+CRYPTSP.dll 	6.1.7601.24382
+rsaenh.dll  	6.1.7600.16385
+RpcRtRemote.dll	6.1.7601.17514
+npmproxy.dll	6.1.7600.16385
+fwpuclnt.dll	6.1.7601.18283
+Comctl32.dll	6.10.7601.24380
+credssp.dll 	6.1.7601.24408
+schannel.DLL	6.1.7601.24408
+ncrypt.dll  	6.1.7601.24408
+bcrypt.dll  	6.1.7601.24408
+bcryptprimitives.dll	6.1.7601.23451
+GPAPI.dll   	6.1.7601.23452
+cryptnet.dll	6.1.7601.24382
+WLDAP32.dll 	6.1.7601.23889
+SensApi.dll 	6.1.7600.16385
+WINHTTP.dll 	6.1.7601.23451
+webio.dll   	6.1.7601.23375
+
+Windows 6.1.7601
+DrMingw 0.7.7
+

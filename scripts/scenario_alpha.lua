@@ -308,7 +308,7 @@ function phase0FirstMessage(delta)
 
 	mother_station:sendCommsMessage(player, [[Come in Atlantis-1. Congratulations on you and your crews promotion! You now have control of one of the most advanced, and newest, medium frigiates in the Human Navy, the Atlantis Mark 3.
   With your promotion comes a new assigment.
-  You have been stationed at Forward Outpost Gamma, one of our new outposts closest to the Kraylor boarder.
+  You have been stationed at Forward Outpost Gamma, one of our new outposts nearest to the Kraylor boarder.
   Contanct Shipyard-Gamma for your first assigment.]])
 	mission_state = phase0TutorialDecide
 
