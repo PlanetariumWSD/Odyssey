@@ -133,7 +133,7 @@ function init()
     nebula = table.remove(b20_nebula_list, math.random(#b20_nebula_list))
     x, y = nebula:getPosition()
     b20_artifact = Artifact():setPosition(x + random(-1000, 1000), y + random(-1000, 1000))
-    b20_artifact:setScanningParameters(3, 1)
+    b20_artifact:setScanningParameters(1, 1)
     b20_artifact.nebula = nebula
     b20_artifact.beta_radiation = irandom(1, 10)
     b20_artifact.gravity_disruption = irandom(1, 10)
@@ -278,6 +278,7 @@ Doppler instability: %i]], b20_artifact.beta_radiation, b20_artifact.gravity_dis
     phase3_AnalyzingDataTimer = 10
     phase3_AnalyzingDataTimer2 = 10
     phase3_EnemyFleetAttackTimer = 10
+    phase2_WaitTillWormholeWarpedPlayerTimer = 4
 
     phase3_FirstMessage = false
     phase3_SecondMessage = false
@@ -343,7 +344,7 @@ function phase1WaitForPowerup(delta)
     shipyard_gamma:sendCommsMessage(player, [[Atlantis-1,
 Good, we read all systems are go. You can safely undock now.
 Head to sector K6, there is a supply drop there dropped by F-1. Pick this up to stock up on missile weapons.]])
-    supply_drop = SupplyDrop():setFaction("Human Navy"):setPosition(29021, 114945):setEnergy(500):setWeaponStorage("Homing", 12):setWeaponStorage("Nuke", 4):setWeaponStorage("Mine", 8):setWeaponStorage("EMP", 6):setWeaponStorage("HVLI", 20)
+    supply_drop = SupplyDrop():setFaction("Human Navy"):setPosition(29021, 114945):setEnergy(500):setWeaponStorage("Homing", 12):setWeaponStorage("Mine", 8):setWeaponStorage("EMP", 6):setWeaponStorage("HVLI", 20)
     transport_f1:orderDock(supply_station_6)
 	player:addReputationPoints(5)
     mission_state = phase1WaitForSupplyPickup
@@ -408,17 +409,19 @@ function phase1SkippedTutorialMissionBreif(delta)
 	phase1_SkippedTutorialMissionBreifTimer = phase1_SkippedTutorialMissionBreifTimer - delta
 
 	if phase1_SkippedTutorialMissionBreifTimer < 0 then
-		shipyard_gamma:sendCommsMessage(player, [[Our scouts have started to pick up faint signals from inside a nearby dense nebula cluster.
+		shipyard_gamma:sendCommsMessage(player, [[  Our scouts have started to pick up faint signals from a nearby dense nebula cluster.
     We want you to find the source of the signals and report back to us. Your ship is not equiped with the engines
     to travel to the neblua alone so dock with our jump carrier Juicy Double Eight and he will transport you there. Be prepared to fight as there may be enemies nearby your destination
     Good luck Atlantis]])
+
+    player:setEnergy(1000):setWeaponStorage("Homing", 12):setWeaponStorage("Mine", 8):setWeaponStorage("EMP", 6):setWeaponStorage("HVLI", 20)
 		mission_state = phase2WaitForJump
 	end
 
 end
 
 function phase2WaitForJump(delta)
-    if betterHandleJumpCarrier(jc88, 304882, -71632, [[Hold on tight, heading for sector B20.]]) then
+    if handleJumpCarrier(jc88, 24000, 125000, 310000, -71000, [[Hold on tight, heading for sector B20.]]) then
         --Good, continue.
         jc88:sendCommsMessage(player, [[Atlantis-1,
 Here we are. B20. Looks like there are some lingering Kraylors here.
@@ -480,8 +483,12 @@ end
 function phase2WaitTillWormholeWarpedPlayer(delta)
 
 
+
     if distance(player, 688636,-194683) < 2000 then  --Change the coordinates to match whatever new area we make
-        shipyard_gamma:sendCommsMessage(player, scrambleMessage([[Atlantis-1, We are detecting Kraylor ships in your vicinity! You must destroy them! ]]))
+        phase2_WaitTillWormholeWarpedPlayerTimer = phase2_WaitTillWormholeWarpedPlayerTimer - delta
+        if phase2_WaitTillWormholeWarpedPlayerTimer < 0 then
+          shipyard_gamma:sendCommsMessage(player, scrambleMessage([[Atlantis-1, We are detecting Kraylor ships in your vicinity! You must destroy them! ]]))
+        end
 
 
           wormhole_creation_station = SpaceStation():setTemplate("Medium Station"):setFaction("Kraylor"):setCallSign("Wormhole Creation Station"):setPosition(693145,-194086):setShieldsMax(200)
@@ -786,7 +793,7 @@ function scrambleMessage(message)
 end
 
 --[[ Assistance function to help with the details of the player using a jump carrier. --]]
---[[jumping_state = 'wait_for_dock'
+jumping_state = 'wait_for_dock'
 function handleJumpCarrier(jc, source_x, source_y, dest_x, dest_y, jumping_message)
     if jumping_state == 'wait_for_dock' then
         if player:isDocked(jc) then
@@ -808,11 +815,11 @@ function handleJumpCarrier(jc, source_x, source_y, dest_x, dest_y, jumping_messa
             --You idiot. JC-88 will fly back.
             jc88:orderFlyTowardsBlind(source_x, source_y)
             jc88:sendCommsMessage(player, [[Looks like the docking couplers detached pre-maturely.
-This happens sometimes. I am on my way so we can try again.]]--[[)
+This happens sometimes. I am on my way so we can try again.]])
         end
     end
     return false
-end]]
+end
 
 
 function betterHandleJumpCarrier(jc, x, y, message)
@@ -824,10 +831,11 @@ function betterHandleJumpCarrier(jc, x, y, message)
       jc:sendCommsMessage(player, message)
     end
 
+    local shipX, shipY = jc:getPosition()
 
     if((shipX == x) and (shipY == y)) then
-    return true
-  end
+      return true
+    end
 
 
 end
